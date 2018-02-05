@@ -5,7 +5,8 @@ const express = require('express'),
 
 const PORT = 3000,
   CWD = process.cwd(),
-  APP_HTML = `${CWD}/index.html`
+  APP_HTML = `${CWD}/index.html`,
+  SEND_RANDOM_INTERVAL = 1000
 ;
 
 const app = express(),
@@ -14,7 +15,8 @@ const app = express(),
 
 expressWS(app);
 
-app.use('/static',express.static('src'));
+app.use('/src', express.static('src'));
+app.use('/dist', express.static('dist'));
 
 app.get('/api/channel(/:channelId)?', (request, response) => {
   const { channelId } = request.params;
@@ -41,6 +43,6 @@ app.ws('/listen/channel/:channelId', (ws, request) => {
   ws.on('close', () => channelStore.removeListener(channelId, ws));
 });
 
-//setInterval(
+setInterval(() => channelStore.sendRandom(), SEND_RANDOM_INTERVAL);
 
 app.listen(PORT, () => console.log(`Listen on port ${PORT}`));
