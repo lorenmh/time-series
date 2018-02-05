@@ -1,10 +1,10 @@
 import {
-  UPDATE_CHANNELS
+  SET_CHANNELS
 } from './actions';
 
 const rootReducer = (state={}, action) => {
   switch (action.type) {
-    case UPDATE_CHANNELS:
+    case SET_CHANNELS:
       return {
         ...state,
         channels: action.channels

@@ -1,15 +1,7 @@
 export const INITIALIZE = 'INITIALIZE';
-export const UPDATE_CHANNELS = 'UPDATE_CHANNELS';
+export const SET_CHANNELS = 'SET_CHANNELS';
+export const CREATE_CHANNEL = 'CREATE_CHANNEL';
+export const GET_CHANNELS_SUCCEEDED = 'GET_CHANNELS_SUCCEEDED';
+export const GET_CHANNELS_FAILED = 'GET_CHANNELS_FAILED';
 
-export function initialAction() {
-  return {
-    type: INITIALIZE
-  };
-}
-
-export function updateChannels(channels=[]) {
-  return {
-    type: UPDATE_CHANNELS,
-    channels
-  };
-}
+export const action = (type, params) => ({type, ...params});

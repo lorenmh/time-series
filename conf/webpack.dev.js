@@ -4,7 +4,7 @@ const CWD = process.cwd();
 
 module.exports = {
   context: CWD + '/src',
-  entry: CWD + '/src/index.jsx',
+  entry: ['babel-polyfill', CWD + '/src/index.jsx'],
   output: {
     path: CWD + '/dist',
     filename: 'dist.min.js',
