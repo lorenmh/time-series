@@ -40,6 +40,13 @@ class Channel {
     this.listeners.delete(ws);
   }
 
+  toObject() {
+    return {
+      id: this.id,
+      numListeners: this.listeners.size
+    };
+  }
+
   /**
    * notifies each listener with the given data
    *
@@ -58,18 +65,53 @@ class ChannelStore {
     this.channels = new Map();
   }
 
+  addListener(channelId, ws) {
+    this.getChannel(channelId).addListener(ws);
+  }
+
+  removeListener(channelId, ws) {
+    this.getChannel(channelId).removeListener(ws);
+  }
+
   /**
    * Creates a new channel, adds it to channels, returns the id
    *
-   * @return {String} The id of the newly created channel
+   * @return {Channel} The newly created channel
    */
   newChannel() {
     const channel = new Channel();
     this.channels.set(channel.id, channel);
-    return channel.id;
+    return channel;
+  }
+
+  /**
+   * Returns true if channelId is in channels
+   * 
+   * @param {String} channelId The channel id to check for
+   * @return {Boolean} True if the channel id is in the set
+   */
+  hasChannel(channelId) {
+    return this.channels.has(channelId);
+  }
+
+  getChannel(channelId) {
+    return this.channels.get(channelId);
   }
 
   sendRandom() {
     for (let [_, channel] of this.channels) channel.notify(new TSData());
   }
+
+  toIdArray() {
+    return (
+      Array.from(this.channels)
+        .map(([id, _]) => id)
+    );
+  }
+
+  toJSON() {
+    JSON.stringify(this.toIdArray());
+  }
 }
+
+module.exports = { ChannelStore, Channel, TSData };
